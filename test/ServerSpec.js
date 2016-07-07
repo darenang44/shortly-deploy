@@ -45,7 +45,7 @@ var Link = require('../app/models/link');
 
       it('Responds with the short code', function(done) {
         request(app)
-          .post('/links')
+          .post('/linkssss')
           .send({
             'url': 'http://www.roflzoo.com/'})
           .expect(200)

@@ -2,7 +2,14 @@ module.exports = function(grunt) {
 
   grunt.initConfig({
     pkg: grunt.file.readJSON('package.json'),
+
     concat: {
+      dist: {
+        files: {
+          'temp/lib.js': ['public/lib/jquery.js', 'public/lib/underscore.js', 'public/lib/backbone.js', 'public/lib/handlebars.js'],
+          'temp/client.js': ['public/client/*.js']
+        }
+      },
     },
 
     mochaTest: {
@@ -21,16 +28,38 @@ module.exports = function(grunt) {
     },
 
     uglify: {
+      'dynamic_mappings': {
+        files: [
+          {
+            expand: true,
+            cwd: 'temp',
+            src: ['**/*.js'],
+            dest: 'public/dist',
+            ext: '.min.js',
+            extDot: 'first'
+          }
+        ]
+      }
     },
 
     eslint: {
+      options: {
+        maxWarnings: 1,
+      },
       target: [
         // Add list of files to lint here
+
+        'app/**/*.js', 'public/client/**/*.js', 'server-config.js', 'server.js'
       ]
     },
 
     cssmin: {
         // Add list of files to lint here
+      target: {
+        files: {
+          'public/dist/style.min.css': ['public/style.css']
+        }
+      }
     },
 
     watch: {
@@ -40,6 +69,7 @@ module.exports = function(grunt) {
           'public/lib/**/*.js',
         ],
         tasks: [
+          'eslint',
           'concat',
           'uglify'
         ]
@@ -78,6 +108,11 @@ module.exports = function(grunt) {
   ]);
 
   grunt.registerTask('build', [
+    'eslint',
+    'test',
+    'concat',
+    'uglify',
+    'cssmin'
   ]);
 
   grunt.registerTask('upload', function(n) {
@@ -90,6 +125,8 @@ module.exports = function(grunt) {
 
   grunt.registerTask('deploy', [
       // add your production server task here
+    'build',
+    'nodemon'
   ]);
 
 
