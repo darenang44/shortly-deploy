@@ -1,8 +1,7 @@
 //var db = require('../config');
 var bcrypt = require('bcrypt-nodejs');
-var Promise = require('bluebird');
-
 var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
 
 var usersSchema = mongoose.Schema ({
   id: Number,
@@ -10,17 +9,9 @@ var usersSchema = mongoose.Schema ({
   password: String
 });
 
-var urlsSchema = mongoose.Schema ({
-  id: Number,
-  baseUrl: String,
-  code: String,
-  title: String,
-  visits: Number
-});
-
-usersSchema.pre('save', function(next){
+usersSchema.pre('save', function(next) {
   var user = this;
-  if (!user.isModified('password')) {return next();}
+  if (!user.isModified('password')) { return next(); }
   this.hashPassword()
     .then(next);
 });
@@ -37,7 +28,7 @@ usersSchema.methods.hashPassword = function() {
     .then(function(hash) {
       this.password = hash;
     });
-}
+};
 var User = mongoose.model('User', usersSchema);
 
 

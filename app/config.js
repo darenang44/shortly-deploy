@@ -1,8 +1,8 @@
 var path = require('path');
 
-
-
 var mongoose = require('mongoose');
+mongoose.Promise = require('bluebird');
+mongoose.connect('mongodb://localhost/test');
 
 
 
@@ -36,4 +36,4 @@ var mongoose = require('mongoose');
 //   }
 // });
 
-module.exports = db;
+// module.exports = db;

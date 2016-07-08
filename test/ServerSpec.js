@@ -45,7 +45,7 @@ var Link = require('../app/models/link');
 
       it('Responds with the short code', function(done) {
         request(app)
-          .post('/linkssss')
+          .post('/links')
           .send({
             'url': 'http://www.roflzoo.com/'})
           .expect(200)
@@ -246,4 +246,4 @@ var Link = require('../app/models/link');
 
   }); // Account Login
 
-});
+}());
